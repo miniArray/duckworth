@@ -1,0 +1,88 @@
++ bh
+- ^topicRedirect('beHelpful', '__entry__')
+
++ forget me
+- Sorry, have we met? ^del('name')\n
+
++ who am i
+- {^hasItem('name', 'true')} ^get('name'), of course.
+- {^hasItem('name', 'false')} You do not exist.
+
++ * virus *
+- No problem. Lets open Microsoft Defender
+
+///////////////////////////////////////////////////////////////////////////////
+
+//> pre
+//  + *
+//  - ^services()
+//< pre
+
+> topic introduce {keep}
+  + __greeting__
+  - Hi there!
+  - Hello to you too!
+  - Howdy!
+  - Well hello there!
+  - Oh, hello!
+
+  + __name__
+  - Is your name.. Natalie?
+  - Can I call you Natalie?
+
+  + {^hasTag('hello')} *
+  - {^hasItem('name', 'true')} Hi ^get('name')\n
+  - {delay=500} ^topicRedirect('beHelpful', '__entry__')
+
+  - {^hasItem('name', 'false')} {topic=setName} {@__greeting__}\n
+  ^ {delay=500} My name is Adele.\n
+  ^ {delay=500} Your PC is named Natalie's computer, {@__name__}
+
+  - {^hasItem('name', 'false')} {topic=setName} {@__greeting__}\n
+  ^ {delay=500} My name is Adele.\n
+  ^ {delay=500} {@__name__}
+
+    /*+ *
+    - {keep} Sorry, I don't understand*/
+< topic
+
+> topic beHelpful
+  + __greeting__
+  - You could say something like,
+  - Try(( this)),
+  - Heres something you could say.
+
+  + what can i say
+  - {@__greeting__} "((help me with)) sleep settings"
+  - {@__greeting__} "register my pc"
+  - {@__greeting__} "((can you)) run a ((security|virus)) scan"
+
+  + {keep} __entry__
+  - Anything I can help you with?
+  - How can I help you(( today?|?))
+  - How can I be of service?
+  - Need help with anything?
+  - What ((do you need|would you like))(( today?|?))
+  - What can I do(( for you?|?))
+  - Can I help(( you| ))with ((anything|something))?
+  - ((Is there anything|Anything) ((I can do for you/help you with)) ((today))?
+< topic
+
+> topic specs
+  + [how much|what kind of] *1 [do i have]
+  - alot of <cap1>
+< topic
+
+> topic setName {system}
+  + {^hasTag('yes')} *
+  - Hi Natalie!\n ^save('name', "Natalie")
+  ^ {delay=500} {topic=beHelpful}
+
+  + {^hasTag('no')} *
+  - ((Sorry about that|Oh bugger)). What ((is your name|should i call you))?
+
+    + my name is *
+    % *What*
+    - ^save('name', <cap1>) Hi <cap1>!\n
+    ^ {delay=500} ^topicRedirect('beHelpful', '__entry__')
+< topic

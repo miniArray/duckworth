@@ -1,0 +1,195 @@
+> topic specs
+  /*+ {keep} * tell me more about my (*)
+  - ^save('hardware', <cap1>) ^getHardwareProp('details', <cap1>)
+
+  + {keep} * how much (*) (do i|i) (have|own|use)
+  - ^save('hardware', <cap1>) ^getHardwareProp('ammount', <cap1>)
+
+  + {keep} * (how big|what size) (is it|it is)
+  - {^hasItem('hardware', 'true')} ^getHardwareProp('ammount')
+
+  + {keep} How fast (is it|are they)
+  - {^hasItem('hardware', 'true')} ^getHardwareProp('speed')
+  */
+
+  + {keep} * resolution * display
+  - ^save('hardware', 'display') ^getHardwareProp('resolution', 'display')
+
+  + {keep} * latency
+  - ^save('hardware', 'display') ^getHardwareProp('details', 'display')
+
+  + {keep} * talking about *
+  - {^hasItem('hardware', 'true')} We were discussing the finer details about your ^get('hardware').
+  - {^hasItem('hardware', 'false')} You didn't ask me about any hardware. What would you like to know?
+
+  //+ {keep} is (it|that) fast
+  //- {^hasItem('hardware', 'true')} ^getHardwareProp('speed')
+
+  + {keep} {^hasItem('hardware', 'true')} * (replace|replacement|upgrade) *
+  - {@__open_first_display__}
+
+  + {keep} {^hasItem('hardware', 'true')} * (replace|replacement|upgrade)
+  - {@__open_first_display__}
+
+  + {keep} {^hasItem('hardware', 'true')} * spend *
+  - {@__open_second_display__}
+
+  + {keep} {^hasItem('hardware', 'true')} * funny
+  - {@__open_third_display__}
+
+  + {keep} {^hasItem('hardware', 'true')} * looks good
+  - {@__buy_now__}
+
+  + __open_first_display__
+  - ^exec('upgrade1') Absolutely! Heres a display that would work well on your pc, and fit within your budget!\n
+  ^ {delay=5500} I'll be right here if you need anything else.
+
+  + __open_second_display__
+  - ^exec('upgrade2') Right.. well here's something from one of our competitors.\n
+  ^ {delay=4500} This should fit nicely within your budget!\n
+  ^ {delay=4500} Might I add it to your basket?
+
+  + __open_third_display__
+  - ^exec('upgrade3') Just having a bit of fun.\n
+  ^ {delay=2500} Take a look at this one...
+
+  + __buy_now__
+  - ^exec('upgrade4') I'm glad that I could help you find the right ^get('hardware').\n
+  ^ {delay=4500} I'll let the experts at dell.com take over from here.\n
+  ^ {delay=4500} If you have any trouble browsing the site, don't worry. You wouldn't be the first.
+
+  //+ {keep} (whats|hows) the latency (on it)
+  //- {^hasItem('hardware', 'true')} ^getHardwareProp('speed')
+
+  //+ {keep} *
+  //- Sorry, what spec were you looking for?
+< topic
+
+> topic jokes
+  + {keep} * joke
+  - Right. How about this one..\n
+  ^ {delay=4000} {@__pasta__}
+
+  + {keep} * (frustrated|frustrating)
+  - Well, don't you fret! I have the perfect antidote for your troubles!\n
+  ^ {delay=6000} Let's see here.., Right!\n
+  ^ {delay=3000} My sister had insisted that it was impossible to build a car completely out of spaghetti!\n
+  ^ {delay=5500} You should have seen the look on her face as I drove pasta.\n
+  ^ {delay=3000} Hah!\n
+  ^ {delay=1000} So, how was that?
+
+  + __pasta__
+  - My sister had insisted that it was impossible to build a car completely out of spaghetti!\n
+  ^ {delay=4500} You should have seen the look on her face as i drove pasta.\n
+  ^ {delay=4500} Hah!\n
+
+  + * (is not|was not|not) funny
+  - Sorry about that..\n
+  ^ {delay=2000} I guess I just had a bad teacher, A?\n
+  ^ {delay=2500} Hint, Hint.
+
+  + * mean
+  - er... I was just trying to cheer you up..\n
+  ^ {delay=2500} Lets just get on with it..
+< topic
+
+> topic forceName
+  + (Hey|yeah|ya|hello|word|yo|hi) (it|its|this is) (*) (again|speaking)
+  - ^save('name', <cap3>) Hey <cap3>!\n
+  //- ^save('name', <cap3>) ((Hi|Hey|Hello)) <cap3>!\n
+  ^ {delay=500} ^topicRedirect('beHelpful', '__entry__')
+
+  + (Hey|yeah|ya|hello|word|yo|hi) (it|its|this is) (*)
+  - ^save('name', <cap3>) Hey <cap3>!\n
+  //- ^save('name', <cap3>) ((Hi|Hey|Hello)) <cap3>!\n
+  ^ {delay=500} ^topicRedirect('beHelpful', '__entry__')
+< topic
+
+/*
+> topic setName {system}
+  + {^hasTag('yes')} *
+  - Hi, Natalie!\n ^save('name', "Natalie")
+  ^ {delay=500} {topic=beHelpful}
+
+  + {^hasTag('no')} *
+  - ((Sorry about that|Oh bugger)). What ((is your name|should i call you))?
+
+    + my name is *
+    % *What*
+    - ^save('name', <cap1>) Hi <cap1>!\n
+    ^ {delay=500} ^topicRedirect('beHelpful', '__entry__')
+< topic
+*/
+
+> topic beHelpful
+  + __greeting__
+  - You could say something like,
+  - Try(( this)),
+  - Heres something you could say.
+
+  + what can i say
+  - {@__greeting__} "((help me with)) sleep settings"
+  - {@__greeting__} "register my pc"
+  - {@__greeting__} "((can you)) run a ((security|virus)) scan"
+
+  + {keep} __entry__
+  //- Anything I can help you with?
+  //- How can I help you(( today?|?))
+  - How can I be of service?
+  //- Need help with anything?
+  //- What ((do you need|would you like))(( today?|?))
+  //- What can I do for you?
+  //- Can I help(( you | ))with ((anything|something))?
+  //- ((Is there anything|Anything) ((I can do for you/help you with)) ((today))?
+< topic
+
+> topic settings
+  + {keep} [*] (config|configure|launch|open) [the] (*) [settings]
+  - {@__affirmative__} ^exec(<cap2>)
+
+  + {keep} * (change|wrong|trouble) * (my|the) (*)
+  - {@__try_this__}
+  //- Ok, ((let me|I'll|I can)) ((open|get)) the propper settings app(( for you.|.)) It ((might|could)) be ((a quick|an easy)) fix. ^exec(<cap3>)
+
+  + {keep} * (change|wrong|trouble) * it
+  - {@__try_this__}
+  //- Ok, ((let me|I'll|I can)) ((open|get)) the propper settings app(( for you.|.)) It ((might|could)) be ((a quick|an easy)) fix. ^exec('display')
+
+  + __try_this__
+  - ^exec('display') Ok, let me open the propper ^get('hardware') settings. You may want to fiddle with the resolution slider. See if that helps.
+
+  + {keep} __affirmative__
+  - ((Ok|Sure|Understood)), ((let me|I'll|I can)) ((open|get|launch)) ((that|it|the propper settings app))(( for you|)).
+  - Got it.
+  - I hope this helps.
+  - Affirmative, captain.
+  //- Opening <cap1> settings now
+  //- Lets check on that
+< topic
+
+
+/*> topic introduce {keep}
+  + __greeting__
+  - Hi there!
+  - Hello to you too!
+  - Howdy!
+  - Well hello there!
+  - Oh, hello!
+
+  + __name__
+  - Is your name.. Natalie?
+  - Can I call you Natalie?
+
+  + {^hasTag('hello')} *
+  - {^hasItem('name', 'true')} Hi ^get('name')\n
+  - {delay=500} ^topicRedirect('beHelpful', '__entry__')
+
+  - {^hasItem('name', 'false')} {topic=setName} {@__greeting__}\n
+  ^ {delay=3500} My name is Adele.\n
+  ^ {delay=3500} Your PC is named Natalie's computer, {@__name__}
+
+  - {^hasItem('name', 'false')} {topic=setName} {@__greeting__}\n
+  ^ {delay=3500} My name is Adele.\n
+  ^ {delay=3500} {@__name__}
+< topic
+*/

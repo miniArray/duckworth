@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "ignore": ["lib/*"],
+  "exec": "npm run parse && npm run build && babel-node",
+  "events": {
+
+  },
+  "execMap": {
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

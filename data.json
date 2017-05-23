@@ -1,0 +1,124 @@
+{
+    "topics": {
+        "music": {
+            "name": "music",
+            "flags": {},
+            "keywords": [],
+            "filter": null,
+            "gambits": [
+                "RMyciAM8",
+                "2GSaWOQT",
+                "hSaiWw6O",
+                "f0h35au9"
+            ]
+        }
+    },
+    "gambits": {
+        "RMyciAM8": {
+            "trigger": {
+                "flags": {
+                    "keep": "keep"
+                },
+                "filter": null,
+                "question": false,
+                "raw": "play (music|some music|something)",
+                "clean": "play(?=^|\\s)\\s*(music|some music|something)(?=\\s|$)\\s*"
+            },
+            "replies": [
+                "6xuIoDCi"
+            ],
+            "conditional": null,
+            "conversation": null,
+            "topic": "music"
+        },
+        "2GSaWOQT": {
+            "trigger": {
+                "flags": {
+                    "keep": "keep"
+                },
+                "filter": null,
+                "question": false,
+                "raw": "play something (*)",
+                "clean": "play something(?=^|\\s)\\s*(.*)(?=\\s|$)\\s*"
+            },
+            "replies": [
+                "sM3bEU8B"
+            ],
+            "conditional": null,
+            "conversation": null,
+            "topic": "music"
+        },
+        "hSaiWw6O": {
+            "trigger": {
+                "flags": {
+                    "keep": "keep"
+                },
+                "filter": null,
+                "question": false,
+                "raw": "play (*)",
+                "clean": "play(?=^|\\s)\\s*(.*)(?=\\s|$)\\s*"
+            },
+            "replies": [
+                "XiqJG4KZ"
+            ],
+            "conditional": null,
+            "conversation": null,
+            "topic": "music"
+        },
+        "f0h35au9": {
+            "trigger": {
+                "flags": {
+                    "keep": "keep"
+                },
+                "filter": null,
+                "question": false,
+                "raw": "__AFFERMATIVE__",
+                "clean": "__AFFERMATIVE__"
+            },
+            "replies": [
+                "9ltB37Jq",
+                "nc2z61k1",
+                "dkPh7BiL"
+            ],
+            "conditional": null,
+            "conversation": null,
+            "topic": "music"
+        }
+    },
+    "replies": {
+        "6xuIoDCi": {
+            "string": "{@__AFFERMATIVE__} ^music('shuffle', '')",
+            "filter": null,
+            "keep": false
+        },
+        "sM3bEU8B": {
+            "string": "{@__AFFERMATIVE__} ^music('genre', <cap>)",
+            "filter": null,
+            "keep": false
+        },
+        "XiqJG4KZ": {
+            "string": "{@__AFFERMATIVE__} ^music('artist', <cap>)",
+            "filter": null,
+            "keep": false
+        },
+        "9ltB37Jq": {
+            "string": "sure, just a moment",
+            "filter": null,
+            "keep": false
+        },
+        "nc2z61k1": {
+            "string": "sure, let me pull that up for you",
+            "filter": null,
+            "keep": false
+        },
+        "dkPh7BiL": {
+            "string": "sounds like a plan",
+            "filter": null,
+            "keep": false
+        }
+    },
+    "checksums": {
+        "./chat/music.ss": "1b0f37ff298cd1c7832afe2cae3145c7c5ca95c5"
+    },
+    "version": 1
+}
